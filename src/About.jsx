@@ -18,7 +18,7 @@ function About(){
                     I am always eager to improve my skills and grow as a developer.
                 </p>
 
-                <a href="KARTHICK RAJA S resume.pdf"><button>Download Resume</button></a>
+                <a href="/KARTHICK RAJA S resume.pdf"><button>Download Resume</button></a>
             </div>
         </section>
     )
