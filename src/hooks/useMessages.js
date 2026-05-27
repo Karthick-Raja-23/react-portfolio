@@ -1,15 +1,11 @@
 import { useEffect, useState } from "react";
-import { API_BASE_URL, MESSAGES_PASSWORD } from "../config";
 
 function useMessages () {
     const [messages, setMessages] = useState([]);
 
     useEffect(() => {
-        if (!API_BASE_URL || !MESSAGES_PASSWORD) {
-            return;
-        }
 
-        fetch(`${API_BASE_URL}/messages?password=${encodeURIComponent(MESSAGES_PASSWORD)}`) 
+        fetch(fetch("https://react-portfolio-f4ed.onrender.com/messages?password=kr123")) 
             .then(res => res.json())
             .then(data => setMessages(data))    //stores data to display in UI
             .catch(err => console.error(err));
