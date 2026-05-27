@@ -1,0 +1,48 @@
+Function Component -
+    function App() {
+        return (
+            <Navbar />
+    )}
+
+Component - //resuable UI block
+    function Navbar() {
+        return <h2>Navbar</h2>
+    }
+
+map() - //Loops through array, Returns UI for each item
+    navItems.map((item) => (
+        <li>{item}</li>
+    ))
+
+<a href={`#${item.toLowerCase()}`}> - 
+    Dynamic ver of <a href="#about">About</a>
+    `` - used for template string
+    ${} - used to insert JavaScript inside string
+
+object-fit: cover
+    Prevents stretching
+
+span -- used to style part of text
+
+Array of Objects -
+    [
+    { name: "HTML", logo: "path" }
+    ]
+
+Nested Data Structure - Object inside array & Array inside object
+    {
+        role: "...",
+        points: ["a", "b", "c"]
+    }
+Nested map() - exp.points.map(...)
+
+npm init -y |--package.json - tracks backend project
+npm install express cors - exp | backend framework
+                           cors | front and back to talk
+
+server - program that listens for requests
+
+("/") -- endpoint
+
+npm install react-router-dom 
+    Adds routing capability to React
