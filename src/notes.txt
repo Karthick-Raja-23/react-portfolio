@@ -46,3 +46,5 @@ server - program that listens for requests
 
 npm install react-router-dom 
     Adds routing capability to React
+
+npm install mongoose dotenv -- helps nodejs talk to mongodb easily

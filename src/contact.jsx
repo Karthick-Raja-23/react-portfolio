@@ -1,6 +1,5 @@
 import { useState } from "react" //React tool to store data
 import {TextField, Button, Box} from "@mui/material"
-import { API_BASE_URL } from "./config"
 
 function Contact () {
 
@@ -20,13 +19,8 @@ function Contact () {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!API_BASE_URL) {
-            alert("Contact form is not connected yet. Add VITE_API_BASE_URL in your hosting environment.");
-            return;
-        }
-
         try {
-            const response = await fetch(`${API_BASE_URL}/contact`, {
+            const response = await fetch("https://react-portfolio-f4ed.onrender.com/contact", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

@@ -1,24 +1,16 @@
+require("dotenv").config()
+const mongoose = require("mongoose")
+const Contact = require("./models/contact")
+
 const express = require("express");
 const cors = require("cors");
-const mysql = require("mysql2");
 
 const PORT = process.env.PORT || 5000;
 const MESSAGES_PASSWORD = process.env.MESSAGES_PASSWORD || "kr123";
 
-const db = mysql.createConnection({
-    host: process.env.DB_HOST || "localhost",
-    user: process.env.DB_USER || "root",
-    password: process.env.DB_PASSWORD || "",
-    database: process.env.DB_NAME || "portfolio"
-});
-
-db.connect((err) => {
-    if(err) {
-        console.error("DB connection failed", err);
-    } else {
-        console.log("Connected to MySQL")
-    }
-});
+mongoose.connect(process.env.MONGO_URI)
+.then(() => console.log("MongoDB Connected"))
+.catch((err) => console.log(err))
 
 const app = express(); //creates server
 
@@ -31,23 +23,29 @@ app.get("/", (req,res) => {
     res.send("Server is running"); //route testing
 });
 
-app.post("/contact", (req,res) => { //Creates API endpoint
-    const {name, email, message} = req.body
+app.post("/contact", async (req,res) => { //Creates API endpoint
 
-    const sql = "INSERT INTO contacts (name, email, message) VALUES (?,?,?)";
-    db.query(sql, [name, email, message], (err, result) => {
-        
-        if(err) {
-            console.error(err);
-            return res.status(500).json({message:"Database error"});
-        }
+    try {
+
+        const {name, email, message} = req.body
+
+        const newMessage = new Contact({
+            name, email, message
+        });
+
+        await newMessage.save();
 
         res.json({message: "Message successfully received"});
 
-    })
+    } catch (err) {
+
+        console.error(err);
+        return res.status(500).json({message:"Database error"});
+
+    }
 });
 
-app.get("/messages", (req,res) => {
+app.get("/messages", async (req,res) => {
 
     const password = req.query.password;
 
@@ -55,18 +53,17 @@ app.get("/messages", (req,res) => {
         return res.status(401).json({message: "Unauthorized"});
     }
     
-    const sql ="SELECT * FROM contacts ORDER BY id DESC";
+    try {
 
-    db.query(sql, (err, result) => {
+        const messages = await Contact.find().sort({ createAt: -1 });
+        res.json(messages);
 
-        if (err) {
-            console.error(err);
-            return res.status(500).json({message: "Error fetching data"});
-        }
+    } catch (err) {
 
-        res.json(result);
+        console.error(err);
+        return res.status(500).json({message: "Error fetching data"});
 
-    });
+    }
 });
 
 app.listen(PORT, () =>{
